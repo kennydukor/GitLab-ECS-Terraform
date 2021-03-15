@@ -3,6 +3,10 @@ body {
     font-family: 'Courier New', Courier, monospace;
 }
 
+h1 {
+    color: darkgreen;
+}
+
 .info {
     text-align: left;
     max-width: 800px;

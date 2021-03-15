@@ -10,8 +10,8 @@ setup: # npm install + terraform init + create user
 dev: # local development
 	./make.sh dev
 
-build: # build the production image
-	./make.sh build
+build-push: # build the production image + push to ecr
+	./make.sh build-push
 	
 # tf-init: # terraform init
 # 	./make.sh tf-init

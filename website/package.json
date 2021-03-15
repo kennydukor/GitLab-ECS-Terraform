@@ -1,6 +1,6 @@
 {
   "name": "gitlab-ecs-terraform",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "gitlab-ecs-terraform",
   "repository": "jeromedecoster/gitlab-ecs-terraform",
   "main": "index.js",

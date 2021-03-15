@@ -128,8 +128,8 @@ ecr-create() {
 
 
 
-# build the production image
-build() {
+# build the production image + push to ecr
+build-push() {
     docker-build
     ecr-push
 }
