@@ -7,24 +7,24 @@ variables:
   REPOSITORY: gitlab-ecs-terraform
   DOCKER_HOST: tcp://docker:2375
 
-# build-push:
-#   stage: build
-#   image: 
-#     name: amazon/aws-cli
-#     entrypoint: [""]
-#   services:
-#     - docker:dind
-#   before_script:
-#     - amazon-linux-extras install docker
-#     - aws --version
-#     - docker --version
-#   script:
-#     - cd website
-#     - echo $CI_COMMIT_SHORT_SHA
-#     - docker build --tag $DOCKER_REGISTRY/$REPOSITORY:$CI_COMMIT_SHORT_SHA --tag $DOCKER_REGISTRY/$REPOSITORY:latest .
-#     - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
-#     - docker push $DOCKER_REGISTRY/$REPOSITORY:$CI_COMMIT_SHORT_SHA
-#     - docker push $DOCKER_REGISTRY/$REPOSITORY:latest
+build-push:
+  stage: build
+  image: 
+    name: amazon/aws-cli
+    entrypoint: [""]
+  services:
+    - docker:dind
+  before_script:
+    - amazon-linux-extras install docker
+    - aws --version
+    - docker --version
+  script:
+    - cd website
+    - echo $CI_COMMIT_SHORT_SHA
+    - docker build --tag $DOCKER_REGISTRY/$REPOSITORY:$CI_COMMIT_SHORT_SHA --tag $DOCKER_REGISTRY/$REPOSITORY:latest .
+    - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
+    - docker push $DOCKER_REGISTRY/$REPOSITORY:$CI_COMMIT_SHORT_SHA
+    - docker push $DOCKER_REGISTRY/$REPOSITORY:latest
 
 apply:
   stage: apply
@@ -35,16 +35,16 @@ apply:
       - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'    
   script:
     - sed "s|{{TF_TOKEN}}|$TF_TOKEN|" credentials.tfrc.json > /root/.terraformrc
-    - cat /root/.terraformrc
+    # - cat /root/.terraformrc
     - cd infra
     - terraform init
     - terraform validate
-    # - export TF_VAR_ecr_image=$DOCKER_REGISTRY/$REPOSITORY:latest
-    - export TF_VAR_ecr_image=635107281823.dkr.ecr.eu-west-3.amazonaws.com/gitlab-ecs-terraform:latest
+    - export TF_VAR_ecr_image=$DOCKER_REGISTRY/$REPOSITORY:latest
+    # - export TF_VAR_ecr_image=635107281823.dkr.ecr.eu-west-3.amazonaws.com/gitlab-ecs-terraform:latest
     - export TF_VAR_AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
     - export TF_VAR_AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
     - terraform taint aws_ecs_task_definition.task_definition
     - terraform plan
     - terraform apply -auto-approve
-  # needs:
-  #   - build-push
+  needs:
+    - build-push
