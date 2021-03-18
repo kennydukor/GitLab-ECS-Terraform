@@ -36,7 +36,8 @@ apply:
   script:
     - sed "s|{{TF_TOKEN}}|$TF_TOKEN|" credentials.tfrc.json > /root/.terraformrc
     - cat /root/.terraformrc
-    - apt-get install build-essential
+    - apk update
+    - apk add make
     - make tf-validate
     - make tf-apply
     # - cd infra && terraform init
