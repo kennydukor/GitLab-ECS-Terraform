@@ -38,8 +38,9 @@ apply:
     - cat /root/.terraformrc
     - apk update
     - apk add make
-    - make tf-validate
-    - make tf-apply
+    - ls -1
+    # - make tf-validate
+    # - make tf-apply
     # - cd infra && terraform init
     # - export TF_VAR_ecr_image=$DOCKER_REGISTRY/$REPOSITORY:latest
     # - export TF_VAR_AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
