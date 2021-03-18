@@ -75,6 +75,22 @@ user-create() {
         --policy-arn arn:aws:iam::aws:policy/PowerUserAccess \
         --profile $AWS_PROFILE
 
+    aws iam attach-user-policy \
+        --user-name $PROJECT_NAME \
+        --policy-arn arn:aws:iam::aws:policy/IAMFullAccess \
+        --profile $AWS_PROFILE
+
+    # Ok with the 2 below
+    # arn:aws:iam::aws:policy/PowerUserAccess
+    # arn:aws:iam::aws:policy/IAMFullAccess
+
+    # ... or Ok with the 5 below
+    # arn:aws:iam::aws:policy/AmazonEC2FullAccess
+    # arn:aws:iam::aws:policy/IAMFullAccess
+    # arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess
+    # arn:aws:iam::aws:policy/CloudWatchFullAccess
+    # arn:aws:iam::aws:policy/AmazonECS_FullAccess
+
     local key=$(aws iam create-access-key \
         --user-name $PROJECT_NAME \
         --query 'AccessKey.{AccessKeyId:AccessKeyId,SecretAccessKey:SecretAccessKey}' \
