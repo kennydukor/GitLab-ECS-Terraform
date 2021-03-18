@@ -35,12 +35,14 @@ apply:
       - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'    
   script:
     - sed "s|{{TF_TOKEN}}|$TF_TOKEN|" credentials.tfrc.json > /root/.terraformrc
-    - cd infra && terraform init
-    - export TF_VAR_ecr_image=$DOCKER_REGISTRY/$REPOSITORY:latest
-    - export TF_VAR_AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
-    - export TF_VAR_AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
-    - terraform taint aws_ecs_task_definition.task_definition
-    - terraform plan
-    - terraform apply -auto-approve
+    - make tf-validate
+    - make tf-apply
+    # - cd infra && terraform init
+    # - export TF_VAR_ecr_image=$DOCKER_REGISTRY/$REPOSITORY:latest
+    # - export TF_VAR_AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+    # - export TF_VAR_AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+    # - terraform taint aws_ecs_task_definition.task_definition
+    # - terraform plan
+    # - terraform apply -auto-approve
   needs:
     - build-push
