@@ -301,6 +301,7 @@ ecr-delete() {
 
     aws ecr delete-repository \
         --repository-name $PROJECT_NAME \
+        --force \
         --region $AWS_REGION \
         --profile $AWS_PROFILE \
         1>/dev/null
