@@ -36,7 +36,7 @@ usage() {
 }
 
 #
-# npm install + terraform init + create user
+# npm install + terraform init + create user + create ecr repository
 #
 setup() {
     cd "$dir/website"
@@ -265,7 +265,7 @@ tf-destroy() {
 
 
 #
-# terraform destroy + delete user + ecr delete
+# terraform destroy + delete user + delete ecr repository
 #
 destroy() {
     tf-destroy
